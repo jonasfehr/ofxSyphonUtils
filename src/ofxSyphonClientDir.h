@@ -39,22 +39,7 @@ public:
                 dirIdx = 0;
             
             set(dir.getDescription(dirIdx));
-            string serverName = getServerName();
-            string appName = getApplicationName();
-            
-            if(serverName == ""){
-                serverName = "null";
-            }
-            if(appName == ""){
-                appName = "null";
-            }
-            ofSetWindowTitle(serverName + ":" + appName);
         }
-        else
-        {
-            ofSetWindowTitle("No Server");
-        }
-        
     }
     
     void previous(){
@@ -66,21 +51,11 @@ public:
                 dirIdx = dir.size() - 1;
             
             set(dir.getDescription(dirIdx));
-            string serverName = getServerName();
-            string appName = getApplicationName();
             
-            if(serverName == ""){
-                serverName = "null";
-            }
-            if(appName == ""){
-                appName = "null";
-            }
-            ofSetWindowTitle(serverName + ":" + appName);
+        
         }
-        else
-        {
-            ofSetWindowTitle("No Server");
-        }
+        
+        //setSyphonAsWindowTitle();
         
     }
     
@@ -95,15 +70,19 @@ public:
                 dirIdx = i;
                 i = dir.size(); // jump out of the loop
                 
-                if(serverName == ""){
-                    serverName = "null";
-                }
-                if(appName == ""){
-                    appName = "null";
-                }
-                ofSetWindowTitle(serverName + ":" + appName);
+                set(dir.getDescription(dirIdx));
+
+                
+
             }
         }
+    }
+    
+    void setByIndex(int index){
+        if(dirIdx < 0)
+            dirIdx = dir.size() - 1;
+        
+        set(dir.getDescription(dirIdx));
     }
     
     void draw(){
@@ -111,6 +90,22 @@ public:
             ofSetColor(255);
             ofFill();
             ofxSyphonClient::draw(0, 0);
+        }
+    }
+    
+    void draw(int x, int y){
+        if(dir.isValidIndex(dirIdx)){
+            ofSetColor(255);
+            ofFill();
+            ofxSyphonClient::draw(x, y);
+        }
+    }
+    
+    void draw(int x, int y, int width, int height){
+        if(dir.isValidIndex(dirIdx)){
+            ofSetColor(255);
+            ofFill();
+            ofxSyphonClient::draw(x, y, width, height);
         }
     }
     
@@ -128,6 +123,30 @@ public:
         }
         dirIdx = 0;
     };
+    
+    string getName(){
+        string name = "No Server";
+        if (dir.size() > 0)
+        {
+            
+            string serverName = getServerName();
+            string appName = getApplicationName();
+            
+            if(serverName == ""){
+                serverName = "null";
+            }
+            if(appName == ""){
+                appName = "null";
+            }
+            name = serverName + " - " + appName;
+        }
+        return name;
+    };
+    
+    int getNumOfClients(){
+        return dir.size();
+    };
+    
 };
 
 #endif /* ofxSyphonClientDir_h */
