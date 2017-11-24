@@ -59,21 +59,19 @@ public:
         
     }
     
-    void find(string appName, string serverName){
-        string server_Name;
-        string app_Name;
+    void find(string serverName, string appName){
+
         for( int i = 0; i < dir.size(); i++){
             set(dir.getDescription(i));
-            server_Name = getServerName();
-            app_Name = getApplicationName();
+            string server_Name = getServerName();
+            string app_Name = getApplicationName();
             if(appName == app_Name && serverName == server_Name){
                 dirIdx = i;
                 i = dir.size(); // jump out of the loop
-                
                 set(dir.getDescription(dirIdx));
-
-                
-
+                ofLogNotice("ofxSyphonServerDirectory found: "+serverName+" | "+appName);
+            } else {
+                ofLogNotice("ofxSyphonServerDirectory coudn't find: "+serverName+" | "+appName);
             }
         }
     }
@@ -86,11 +84,7 @@ public:
     }
     
     void draw(){
-        if(dir.isValidIndex(dirIdx)){
-            ofSetColor(255);
-            ofFill();
-            ofxSyphonClient::draw(0, 0);
-        }
+        this->draw(0,0);
     }
     
     void draw(int x, int y){

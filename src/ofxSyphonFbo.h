@@ -10,7 +10,7 @@
 class ofxSyphonFbo : public ofxSyphonServer{
 public:
     ofFbo fbo;
-    ofTexture *texture;
+    ofTexture * pTexture;
     int mode = 0;
     
     ofxSyphonFbo(){
@@ -30,8 +30,8 @@ public:
         mode = 0;
     }
     
-    void setup(string name, ofTexture *texture){
-        this->texture = texture;
+    void setup(string name, ofTexture * pointerTexture){
+        this->pTexture = pointerTexture;
         ofxSyphonServer::setName(name);
         
         mode = 1;
@@ -55,9 +55,10 @@ public:
     }
     
     void publish(){
+        ofSetColor(255);
         ofFill();
         if(mode == 1){
-            ofxSyphonServer::publishTexture(texture);
+            ofxSyphonServer::publishTexture(pTexture);
         }else {
             ofxSyphonServer::publishTexture(&fbo.getTexture());
         }
