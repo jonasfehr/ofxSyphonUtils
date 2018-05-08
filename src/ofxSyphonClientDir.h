@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef ofxSyphonClientDir_h
-#define ofxSyphonClientDir_h
+#pragma once
+
 
 class ofxSyphonClientDir : public ofxSyphonClient{
 public:
@@ -28,6 +28,11 @@ public:
         ofAddListener(dir.events.serverRetired, this, &ofxSyphonClientDir::serverRetired);
         
         dirIdx = -1;
+    }
+    
+    void setup(string serverName, string appName){
+        setup();
+        find(serverName, appName);
     }
     
     void next(){
@@ -140,7 +145,5 @@ public:
     int getNumOfClients(){
         return dir.size();
     };
-    
 };
 
-#endif /* ofxSyphonClientDir_h */

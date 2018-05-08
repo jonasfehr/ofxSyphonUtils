@@ -27,6 +27,8 @@ public:
         fbo.end();
         ofxSyphonServer::setName(name);
         
+//        fbo.draw(0,0,0,0); // hack to connect fbo with syphon...
+        
         mode = 0;
     }
     
@@ -75,5 +77,4 @@ public:
     ofFbo* getFboPtr(){
         return &fbo;
     }
-    
 };
