@@ -11,7 +11,11 @@ class ofxSyphonFbo : public ofxSyphonServer{
 public:
     ofFbo fbo;
     ofTexture * pTexture;
-    int mode = 0;
+    
+    enum Mode {
+        TEXTURE,
+        FBO
+    } mode;
     
     ofxSyphonFbo(){
         
@@ -29,14 +33,14 @@ public:
         
 //        fbo.draw(0,0,0,0); // hack to connect fbo with syphon...
         
-        mode = 0;
+        mode = FBO;
     }
     
     void setup(string name, ofTexture * pointerTexture){
         this->pTexture = pointerTexture;
         ofxSyphonServer::setName(name);
         
-        mode = 1;
+        mode = TEXTURE;
     }
     
     
@@ -59,10 +63,15 @@ public:
     void publish(){
         ofSetColor(255);
         ofFill();
-        if(mode == 1){
-            ofxSyphonServer::publishTexture(pTexture);
-        }else {
-            ofxSyphonServer::publishTexture(&fbo.getTexture());
+        switch (mode){
+            case TEXTURE:
+                ofxSyphonServer::publishTexture(pTexture);
+                break;
+                
+            case FBO:
+                ofxSyphonServer::publishTexture(&fbo.getTexture());
+                break;
+                
         }
     }
     
